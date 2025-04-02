@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Speel de beste Plinko en case games in Nederland! Ontdek spannende spellen en win fantastische prijzen.">
+    <meta name="keywords" content="Plinko, case games, online spellen, casino, plezier">
+    <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <meta name="author" content="plinko-case-games.com">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Plinko & Case Games | Beste Online Spellen in NL</title>
+</head>
+<body class="bg-gray-50 font-sans">
+
+ <header class="bg-gradient-to-r from-blue-600 via-purple-700 to-red-500 text-white py-6 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center px-6">
+        <a href="/" class="flex items-center">
+            <img src="images/logo.png" alt="Plinko Case Games" class="h-14">
+            <span class="ml-4 text-3xl font-extrabold">Plinko Case Games</span>
+        </a>
+        <nav class="hidden md:flex space-x-8">
+            <a href="/#benefits" class="text-xl hover:text-yellow-300 transition">Voordelen</a>
+            <a href="/#catalog" class="text-xl hover:text-yellow-300 transition">Spelcatalogus</a>
+            <a href="/#about" class="text-xl hover:text-yellow-300 transition">Over Ons</a>
+            <a href="/#reviews" class="text-xl hover:text-yellow-300 transition">Beoordelingen</a>
+        </nav>
+        <div class="relative">
+            <button onclick="toggleCartPopup()" class="text-xl">
+                <i class="fas fa-shopping-cart"></i>
+            </button>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-300 text-black rounded-full w-6 h-6 flex items-center justify-center text-sm">0</span>
+        </div>
+
+        <button class="md:hidden text-2xl" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</header>
+
+<!-- Mobiel Menu -->
+<div id="mobile-menu" class="hidden bg-blue-600 text-white">
+    <nav class="space-y-3 p-6">
+        <a href="#benefits" class="block text-xl hover:text-yellow-300 transition">Voordelen</a>
+        <a href="#catalog" class="block text-xl hover:text-yellow-300 transition">Spelcatalogus</a>
+        <a href="#about" class="block text-xl hover:text-yellow-300 transition">Over Ons</a>
+        <a href="#reviews" class="block text-xl hover:text-yellow-300 transition">Beoordelingen</a>
+    </nav>
+</div>
+
+<div id="cart-popup" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+    <div class="bg-white w-full max-w-sm rounded-lg shadow-lg p-6">
+        <h3 class="text-2xl font-bold mb-4 text-primary">Jouw Winkelwagen</h3>
+        <div id="cart-items-list" class="space-y-4">
+            <p class="text-gray-700">Je winkelwagen is leeg.</p>
+        </div>
+        <div class="mt-6 flex justify-between">
+            <button onclick="toggleCartPopup()" class="bg-gray-300 text-black py-2 px-4 rounded-lg hover:bg-gray-400 transition">
+                Sluiten
+            </button>
+            <button onclick="showOrderPopup()" class="bg-yellow-500 hover:bg-yellow-400 text-white py-2 px-6 rounded-lg transition">
+                Bestelling Afronden
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="add-to-cart-popup" class="hidden fixed top-5 right-5 bg-green-500 text-white p-4 rounded-lg shadow-lg">
+    <span class="popup-content"></span>
+</div>
+
+<div id="cart-popup" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden flex items-center justify-center transition-opacity duration-300">
+    <div class="bg-white max-w-sm w-full p-6 rounded-lg shadow-lg transform scale-95 transition-transform duration-300">
+        <h3 class="text-2xl font-bold mb-4 text-primary">Jouw Winkelwagen</h3>
+        <div id="cart-items-list" class="space-y-4">
+            <p class="text-gray-700">Je winkelwagen is leeg.</p>
+        </div>
+        <div class="mt-6 flex justify-between">
+            <button onclick="toggleCartPopup()" class="bg-gray-300 text-black py-2 px-4 rounded-lg hover:bg-gray-400 transition">
+                Sluiten
+            </button>
+            <button onclick="showOrderPopup()" class="bg-yellow-500 hover:bg-yellow-400 text-white py-2 px-6 rounded-lg transition">
+                Bestelling Afronden
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Order Form Popup -->
+<div id="order-popup" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden flex items-center justify-center transition-opacity duration-300 z-50">
+    <div class="bg-white max-w-sm w-full p-6 rounded-lg shadow-lg transform scale-95 transition-transform duration-300">
+        <h3 class="text-2xl font-bold mb-4 text-primary">Bestelformulier</h3>
+        <form id="order-form" onsubmit="submitOrder(event)">
+            <div class="mb-4">
+                <label for="customer-name" class="block text-lg font-bold mb-2">Naam</label>
+                <input type="text" id="customer-name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            </div>
+            <div class="mb-4">
+                <label for="customer-phone" class="block text-lg font-bold mb-2">Telefoonnummer</label>
+                <input type="tel" id="customer-phone" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            </div>
+            <div class="mb-4">
+                <label for="customer-address" class="block text-lg font-bold mb-2">Adres</label>
+                <textarea id="customer-address" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" required></textarea>
+            </div>
+            <div class="mt-6 flex justify-between">
+                <button type="button" onclick="toggleOrderPopup()" class="bg-gray-300 text-black py-2 px-4 rounded-lg hover:bg-gray-400 transition">
+                    Sluiten
+                </button>
+                <button type="submit" class="bg-yellow-500 hover:bg-yellow-400 text-white py-2 px-6 rounded-lg transition">
+                    Verzenden
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <!-- Privacy Policy Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <h1 class="text-5xl font-extrabold text-center mb-12 text-yellow-400">Privacybeleid</h1>
+        <div class="text-lg leading-relaxed space-y-6">
+            <p>
+                Bij Plinko Case Games respecteren we jouw privacy. Dit privacybeleid legt uit hoe wij jouw persoonlijke gegevens verzamelen, gebruiken en beschermen. 
+                Door onze website te bezoeken of onze diensten te gebruiken, ga je akkoord met dit beleid.
+            </p>
+
+            <h2 class="text-3xl font-bold mt-8 text-gray-900">1. Welke gegevens verzamelen wij?</h2>
+            <p>
+                Tijdens het gebruik van onze website kunnen de volgende gegevens worden verzameld:
+            </p>
+            <ul class="list-disc list-inside">
+                <li><strong>Persoonlijke gegevens:</strong> Naam, e-mailadres, telefoonnummer.</li>
+                <li><strong>Automatisch verzamelde gegevens:</strong> IP-adres, apparaattype, browserinformatie.</li>
+            </ul>
+
+            <h2 class="text-3xl font-bold mt-8 text-gray-900">2. Hoe gebruiken wij jouw gegevens?</h2>
+            <p>
+                De verzamelde gegevens kunnen worden gebruikt voor:
+            </p>
+            <ul class="list-disc list-inside">
+                <li>Het verwerken van bestellingen en transacties.</li>
+                <li>Het verbeteren van de gebruikerservaring.</li>
+                <li>Het verzenden van promotionele aanbiedingen en updates.</li>
+            </ul>
+
+            <h2 class="text-3xl font-bold mt-8 text-gray-900">3. Delen van gegevens</h2>
+            <p>
+                Wij delen jouw gegevens alleen onder de volgende omstandigheden:
+            </p>
+            <ul class="list-disc list-inside">
+                <li>Wanneer dit wettelijk verplicht is.</li>
+                <li>Met serviceproviders (bijvoorbeeld betalingsverwerkers).</li>
+            </ul>
+
+            <h2 class="text-3xl font-bold mt-8 text-gray-900">4. Hoe beschermen wij jouw gegevens?</h2>
+            <p>
+                Plinko Case Games neemt technische en organisatorische maatregelen om jouw persoonlijke gegevens te beschermen. 
+                Echter, geen enkele overdracht via internet is volledig veilig.
+            </p>
+
+            <h2 class="text-3xl font-bold mt-8 text-gray-900">5. Cookies</h2>
+            <p>
+                Onze website gebruikt cookies om de gebruikerservaring te verbeteren. Cookies zijn kleine gegevensbestanden die in je browser worden opgeslagen. 
+                Je kunt cookies beheren via de instellingen van je browser.
+            </p>
+
+            <h2 class="text-3xl font-bold mt-8 text-gray-900">6. Jouw rechten</h2>
+            <p>
+                Als gebruiker heb je de volgende rechten:
+            </p>
+            <ul class="list-disc list-inside">
+                <li>Het recht op toegang tot je persoonlijke gegevens.</li>
+                <li>Het recht om onjuiste gegevens te corrigeren.</li>
+                <li>Het recht om gegevens te laten verwijderen of het gebruik ervan te beperken.</li>
+            </ul>
+
+            <h2 class="text-3xl font-bold mt-8 text-gray-900">7. Contact</h2>
+            <p>
+                Voor vragen over ons privacybeleid kun je contact met ons opnemen:
+            </p>
+            <p>Email: <a href="mailto:info@plinko-case-games.com" class="text-yellow-500 font-bold">info@plinko-case-games.com</a></p>
+            <p>Telefoon: <a href="tel:+31651825798" class="text-yellow-500 font-bold">+31 651 825 798</a></p>
+
+            <p class="mt-8 text-gray-600">Dit privacybeleid is voor het laatst bijgewerkt in 2025.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h4 class="text-xl font-bold mb-4">Beleid</h4>
+                <ul class="space-y-2">
+                    <li><a href="privacy-policy.html" class="text-yellow-400 hover:text-yellow-300 transition">Privacybeleid</a></li>
+                    <li><a href="terms-and-conditions.html" class="text-yellow-400 hover:text-yellow-300 transition">Algemene Voorwaarden</a></li>
+                    <li><a href="cookies-policy.html" class="text-yellow-400 hover:text-yellow-300 transition">Cookiebeleid</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">Sociale Media</h4>
+                <div class="flex space-x-4">
+                    <a href="https://facebook.com" class="text-yellow-400 text-2xl hover:text-yellow-300 transition"><i class="fab fa-facebook"></i></a>
+                    <a href="https://twitter.com" class="text-yellow-400 text-2xl hover:text-yellow-300 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" class="text-yellow-400 text-2xl hover:text-yellow-300 transition"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" class="text-yellow-400 text-2xl hover:text-yellow-300 transition"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">Betaalmethoden</h4>
+                <div class="flex space-x-4">
+                    <img src="images/payments/visa.png" alt="Visa" class="h-8">
+                    <img src="images/payments/mastercard.png" alt="MasterCard" class="h-8">
+                    <img src="images/payments/paypal.png" alt="PayPal" class="h-8">
+                    <img src="images/payments/amex.png" alt="American Express" class="h-8">
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-4">Nieuwsbrief</h4>
+                <form action="#" method="post" class="space-y-4">
+                    <div>
+                        <label for="newsletter-email" class="sr-only">E-mailadres</label>
+                        <input type="email" id="newsletter-email" name="email" placeholder="Voer je e-mailadres in" class="w-full p-3 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-gray-800 text-white">
+                    </div>
+                    <button type="submit" class="bg-yellow-500 text-black font-bold py-3 px-6 rounded-lg hover:bg-yellow-400 transition w-full">Abonneren</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <p>&copy; 2025 Plinko Case Games. Alle rechten voorbehouden.</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

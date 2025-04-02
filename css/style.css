@@ -1,0 +1,19 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Задает одинаковую высоту всем карточкам */
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card .btn {
+    margin-top: auto; /* Перемещает кнопку в конец карточки */
+}
+#add-to-cart-popup {
+	top: 45px;
+}
+section, nav, header, footer {
+	padding: 0px 20px;
+}
